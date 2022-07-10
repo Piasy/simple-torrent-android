@@ -2,17 +2,13 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 27
-
+    compileSdkVersion androidCompileSdkVersion
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 27
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -30,24 +26,28 @@ ext {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    def jlibtorrent_version = '1.2.16.0'
+    api files('libs/jlibtorrent-' + jlibtorrent_version + '.jar')
+    api files('libs/jlibtorrent-android-arm-' + jlibtorrent_version + '.jar')
+    api files('libs/jlibtorrent-android-arm64-' + jlibtorrent_version + '.jar')
+    api files('libs/jlibtorrent-android-x86-' + jlibtorrent_version + '.jar')
+    api files('libs/jlibtorrent-android-x86_64-' + jlibtorrent_version + '.jar')
 
-    implementation "com.android.support:appcompat-v7:$version_support"
-
-    // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    // jLibTorrent
-    api "com.frostwire:jlibtorrent:$version_jlibtorrent"
-    api "com.frostwire:jlibtorrent-android-arm:$version_jlibtorrent"
-    api "com.frostwire:jlibtorrent-android-arm64:$version_jlibtorrent"
-    api "com.frostwire:jlibtorrent-android-x86:$version_jlibtorrent"
-    api "com.frostwire:jlibtorrent-android-x86_64:$version_jlibtorrent"
-
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-}
-repositories {
-    mavenCentral()
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//
+//    implementation "com.android.support:appcompat-v7:$version_support"
+//
+//    // Kotlin
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//
+//    // jLibTorrent
+//    api "com.frostwire:jlibtorrent:$version_jlibtorrent"
+//    api "com.frostwire:jlibtorrent-android-arm:$version_jlibtorrent"
+//    api "com.frostwire:jlibtorrent-android-arm64:$version_jlibtorrent"
+//    api "com.frostwire:jlibtorrent-android-x86:$version_jlibtorrent"
+//    api "com.frostwire:jlibtorrent-android-x86_64:$version_jlibtorrent"
+//
+//    testImplementation 'junit:junit:4.12'
+//    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
