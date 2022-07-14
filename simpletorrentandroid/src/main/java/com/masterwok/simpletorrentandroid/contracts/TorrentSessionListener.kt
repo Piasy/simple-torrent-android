@@ -100,9 +100,13 @@ interface TorrentSessionListener {
     /**
      * Invoked when a block of the torrent is uploaded to a peer.
      */
-    fun onBlockUploaded(
+//    fun onBlockUploaded(
+//            torrentHandle: TorrentHandle
+//            , torrentSessionStatus: TorrentSessionStatus
+//    )
+
+    fun onTorrentStats(
             torrentHandle: TorrentHandle
             , torrentSessionStatus: TorrentSessionStatus
     )
-
 }

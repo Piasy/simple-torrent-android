@@ -22,7 +22,7 @@ import java.security.InvalidParameterException
  * This class is used to control a torrent download session.
  */
 @Suppress("MemberVisibilityCanBePrivate", "unused")
-open class TorrentSession(
+class TorrentSession(
         private val torrentSessionOptions: TorrentSessionOptions
 ) {
     companion object {
@@ -88,6 +88,13 @@ open class TorrentSession(
                     return
                 }
 
+                if (
+                  alert.trackerAlert() || alert.peerAlert() || alert.dhtAlert() ||
+                  alert.miscAlert() || alert.blockAlert()
+                ) {
+                  return
+                }
+
                 when (alert.type()) {
                     AlertType.DHT_BOOTSTRAP -> torrentSession.get()?.onDhtBootstrap()
                     AlertType.DHT_STATS -> torrentSession.get()?.onDhtStats()
@@ -102,7 +109,8 @@ open class TorrentSession(
                     AlertType.TORRENT_FINISHED -> torrentSession.get()?.onTorrentFinished(alert as TorrentFinishedAlert)
                     AlertType.TORRENT_ERROR -> torrentSession.get()?.onTorrentError(alert as TorrentErrorAlert)
                     AlertType.ADD_TORRENT -> torrentSession.get()?.onAddTorrent(alert as AddTorrentAlert)
-                    AlertType.BLOCK_UPLOADED -> torrentSession.get()?.onBlockUploaded(alert as BlockUploadedAlert)
+//                    AlertType.BLOCK_UPLOADED -> torrentSession.get()?.onBlockUploaded(alert as BlockUploadedAlert)
+                    AlertType.STATS -> torrentSession.get()?.onTorrentStats(alert as StatsAlert)
                     else -> Log.d(Tag, "Unhandled alert: $alert")
                 }
             } catch (e: Exception) {
@@ -287,13 +295,18 @@ open class TorrentSession(
         )
     }
 
-    private fun onBlockUploaded(blockUploadedAlert: BlockUploadedAlert) {
-        val torrentHandle = blockUploadedAlert.handle()
+//    private fun onBlockUploaded(blockUploadedAlert: BlockUploadedAlert) {
+//        val torrentHandle = blockUploadedAlert.handle()
+//
+//        listener?.onBlockUploaded(
+//                torrentHandle
+//                , createSessionStatus(torrentHandle)
+//        )
+//    }
 
-        listener?.onBlockUploaded(
-                torrentHandle
-                , createSessionStatus(torrentHandle)
-        )
+    private fun onTorrentStats(statsAlert: StatsAlert) {
+          val torrentHandle = statsAlert.handle()
+          listener?.onTorrentStats(torrentHandle, createSessionStatus(torrentHandle))
     }
 
 
@@ -460,5 +473,10 @@ open class TorrentSession(
         sessionManager.removeListener(alertListener)
     }
 
+    fun sessionStatus() {
+      sessionManager.postSessionStats()
+      sessionManager.postTorrentUpdates()
+      sessionManager.postDhtStats()
+    }
 }
 

@@ -102,12 +102,11 @@ data class TorrentSessionOptions constructor(
      */
     private fun getDhtBootstrapNodeString(): String =
             "router.bittorrent.com:6681" +
+                    ",router.utorrent.com:6881" +
                     ",dht.transmissionbt.com:6881" +
                     ",dht.libtorrent.org:25401" +
                     ",dht.aelitis.com:6881" +
                     ",router.bitcomet.com:6881" +
-                    ",router.bitcomet.com:6881" +
-                    ",dht.transmissionbt.com:6881" +
                     ",router.silotis.us:6881" // IPv6
 
 }

@@ -16,11 +16,13 @@ class TorrentSessionStatus private constructor(
         , val state: TorrentStatus.State
         , val bencode: ByteArray
         , val seederCount: Int
+        , val peerCount: Int
         , val downloadRate: Int
         , val uploadRate: Int
         , val progress: Float
         , val bytesDownloaded: Long
         , val bytesWanted: Long
+        , val allTimeUploaded: Long
         , val saveLocationUri: Uri
         , val videoFileUri: Uri
         , val torrentSessionBuffer: TorrentSessionBuffer
@@ -38,11 +40,13 @@ class TorrentSessionStatus private constructor(
                 , torrentHandle.status().state()
                 , bencode
                 , torrentHandle.getSeederCount()
+                , torrentHandle.getPeerCount()
                 , torrentHandle.getDownloadRate()
                 , torrentHandle.getUploadRate()
                 , torrentHandle.getProgress()
                 , torrentHandle.getTotalDone()
                 , torrentHandle.getTotalWanted()
+                , torrentHandle.getAllTimeUpload()
                 , saveLocationUri
                 , largestFileUri
                 , torrentSessionBuffer
@@ -52,9 +56,11 @@ class TorrentSessionStatus private constructor(
     override fun toString(): String = "State: $state" +
             ", Bencode Size: ${bencode.size}" +
             ", Seeder Count: $seederCount" +
+            ", Peer Count: $peerCount" +
             ", Download Rate: $downloadRate" +
             ", Upload Rate: $uploadRate" +
             ", Progress: $bytesDownloaded/$bytesWanted ($progress)" +
+            ", AllTimeUploaded: $allTimeUploaded" +
             ", $torrentSessionBuffer" +
             ", Magnet Uri: $magnetUri" +
             ", Save Location: $saveLocationUri" +

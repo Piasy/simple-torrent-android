@@ -22,12 +22,12 @@ internal fun TorrentHandle.getSeederCount(): Int = status().numSeeds()
 /**
  * Get the upload rate of the [TorrentHandle] in bytes/second.
  */
-internal fun TorrentHandle.getUploadRate(): Int = status().uploadRate()
+internal fun TorrentHandle.getUploadRate(): Int = status().uploadPayloadRate()
 
 /**
  * Get the download rate of the [TorrentHandle] in bytes/second.
  */
-internal fun TorrentHandle.getDownloadRate(): Int = status().downloadRate()
+internal fun TorrentHandle.getDownloadRate(): Int = status().downloadPayloadRate()
 
 /**
  * Get the total bytes wanted (to be downloaded) of the [TorrentHandle].
@@ -43,6 +43,10 @@ internal fun TorrentHandle.getTotalDone(): Long = status().totalDone()
  * Get the progress of the [TorrentHandle].
  */
 internal fun TorrentHandle.getProgress(): Float = status().progress()
+
+internal fun TorrentHandle.getPeerCount(): Int = status().numPeers()
+
+internal fun TorrentHandle.getAllTimeUpload(): Long = status().allTimeUpload()
 
 /**
  * Get the Uri of the largest file including the [downloadLocation] of the [TorrentHandle].
